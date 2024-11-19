@@ -1,0 +1,37 @@
+import os
+import pandas as pd
+from openpyxl import load_workbook
+
+# Define the folder containing the Excel files
+input_folder = "path_to_your_excel_files"
+output_file = "compiled_data.xlsx"
+
+# Initialize a list to store the data
+data = []
+
+# Loop through all files in the folder
+for file in os.listdir(input_folder):
+    if file.endswith(".xlsx"):  # Check if the file is an Excel file
+        file_path = os.path.join(input_folder, file)
+        
+        try:
+            # Load the workbook and access the specified worksheet
+            workbook = load_workbook(file_path, data_only=True)
+            sheet = workbook["Worksheet1"]  # Replace with your sheet name
+            
+            # Get the value of the specific cell (e.g., D18)
+            value = sheet["D18"].value
+            
+            # Append the filename and cell value to the data list
+            data.append({"File Name": file, "D18 Value": value})
+        
+        except Exception as e:
+            print(f"Error processing file {file}: {e}")
+
+# Convert the data list into a DataFrame
+df = pd.DataFrame(data)
+
+# Save the DataFrame to an Excel file
+df.to_excel(output_file, index=False)
+
+print(f"Data has been compiled into {output_file}")
