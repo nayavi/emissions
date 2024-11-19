@@ -3,11 +3,8 @@ import pandas as pd
 from openpyxl import load_workbook
 
 # Define the folder containing the Excel files
-input_folder = "path_to_your_excel_files"
-output_file = "compiled_data.xlsx"
-
-# Initialize a list to store the data
-data = []
+input_folder = "https://environment.data.gov.uk/api/file/download?fileDataSetId=8bc33f70-72a6-4772-ab8e-73d58a06bf6a&fileName=2022_Incineration_Monitoring_Reports.zip"
+output_file = "compiled_outputs.xlsx"
 
 # Loop through all files in the folder
 for file in os.listdir(input_folder):
@@ -17,13 +14,22 @@ for file in os.listdir(input_folder):
         try:
             # Load the workbook and access the specified worksheet
             workbook = load_workbook(file_path, data_only=True)
-            sheet = workbook["Worksheet1"]  # Replace with your sheet name
+            sheet = workbook["Operational Data"]  # Replace with your sheet name
             
-            # Get the value of the specific cell (e.g., D18)
-            value = sheet["D18"].value
+            # Get the values of the specific cells
+            value_d18 = sheet["D18"].value
+            value_e18 = sheet["E18"].value
+            value_f18 = sheet[""].value
+            overall_waste = sheet["G18"].value
             
-            # Append the filename and cell value to the data list
-            data.append({"File Name": file, "D18 Value": value})
+            # Append the filename and cell values to the data list
+            data.append({
+                "File Name": file, 
+                "D18 Value": value_d18, 
+                "E18 Value": value_e18,
+                "F18 Value": value_f18,
+                "Overall Waste": overall_waste
+            })
         
         except Exception as e:
             print(f"Error processing file {file}: {e}")
