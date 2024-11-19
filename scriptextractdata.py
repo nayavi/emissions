@@ -45,7 +45,7 @@ for file in os.listdir(extract_folder):
             
             # Append the filename and cell values to the data list
             data.append({
-                "File Name": file, 
+                "File Name": " ".join(file.split()[1:]), 
                 "Capacity": capacity_tonnes_pa, 
                 "Heat Generated": heat_generated,
                 "Power Generated": power_generated,
